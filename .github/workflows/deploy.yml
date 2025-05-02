@@ -1,0 +1,28 @@
+name: Deploy SearXNG securely
+on:
+  push:
+    branches: ["main"]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Establish secure WireGuard session
+        uses: NexRX/WireGuard-Session@v1
+        with:
+          wg-client-b64: ${{ secrets.WG_CONF_B64 }}
+          timeout-address: ${{ secrets.SSH_HOST }}
+
+      - name: Run deploy commands on remote server over SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/searxng
+            git pull origin main
+            rm /opt/searxng/searx/version_frozen.py
+            make docker.build
+            cd /opt/searxng/local
+            docker compose up -d
