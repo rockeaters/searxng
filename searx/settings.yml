@@ -169,18 +169,6 @@ ui:
 #     - image_proxy
 #     - query_in_title
 
-# searx supports result proxification using an external service:
-# https://github.com/asciimoo/morty uncomment below section if you have running
-# morty proxy the key is base64 encoded (keep the !!binary notation)
-# Note: since commit af77ec3, morty accepts a base64 encoded key.
-#
-# result_proxy:
-#   url: http://127.0.0.1:3000/
-#   # the key is a base64 encoded string, the YAML !!binary prefix is optional
-#   key: !!binary "your_morty_proxy_key"
-#   # [true|false] enable the "proxy" button next to each result
-#   proxify_results: true
-
 # communication with search engines
 #
 outgoing:
@@ -264,8 +252,8 @@ plugins:
 #
 # hostnames:
 #   replace:
-#     '(.*\.)?youtube\.com$': 'invidious.example.com'
-#     '(.*\.)?youtu\.be$': 'invidious.example.com'
+#     '(.*\.)?youtube\.com$': 'yt.example.com'
+#     '(.*\.)?youtu\.be$': 'yt.example.com'
 #     '(.*\.)?reddit\.com$': 'teddit.example.com'
 #     '(.*\.)?redd\.it$': 'teddit.example.com'
 #     '(www\.)?twitter\.com$': 'nitter.example.com'
@@ -282,8 +270,8 @@ plugins:
 #  replace: 'rewrite-hosts.yml'
 #
 # Content of 'rewrite-hosts.yml' (place the file in the same directory as 'settings.yml'):
-# '(.*\.)?youtube\.com$': 'invidious.example.com'
-# '(.*\.)?youtu\.be$': 'invidious.example.com'
+# '(.*\.)?youtube\.com$': 'yt.example.com'
+# '(.*\.)?youtu\.be$': 'yt.example.com'
 #
 
 checker:
@@ -1164,16 +1152,15 @@ engines:
     timeout: 6.0
     disabled: true
 
-  - name: invidious
-    engine: invidious
-    # Instanes will be selected randomly, see https://api.invidious.io/ for
-    # instances that are stable (good uptime) and close to you.
-    base_url:
-      - https://invidious.adminforge.de
-      - https://inv.nadeko.net
-    shortcut: iv
-    timeout: 3.0
-    disabled: true
+  # - name: invidious
+  #   engine: invidious
+  #   # if you want to use invidious with SearXNG you should setup one locally
+  #   # https://github.com/searxng/searxng/issues/2722#issuecomment-2884993248
+  #   base_url:
+  #     - https://invidious.example1.com
+  #     - https://invidious.example2.com
+  #   shortcut: iv
+  #   timeout: 3.0
 
   - name: ipernity
     engine: ipernity
